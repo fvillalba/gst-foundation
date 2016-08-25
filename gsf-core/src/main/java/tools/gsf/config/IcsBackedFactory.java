@@ -24,11 +24,13 @@ import COM.FutureTense.Interfaces.ICS;
 
 import tools.gsf.config.inject.AnnotationInjector;
 import tools.gsf.config.inject.BindInjector;
+import tools.gsf.config.inject.CurrentAssetInjector;
 import tools.gsf.config.inject.InjectForRequestInjector;
 import tools.gsf.config.inject.Injector;
 import tools.gsf.config.inject.MappingInjector;
 import tools.gsf.facade.assetapi.AssetAccessTemplate;
 import tools.gsf.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+import tools.gsf.facade.assetapi.asset.TemplateAsset;
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 import tools.gsf.mapping.IcsMappingService;
 import tools.gsf.mapping.MappingService;
@@ -73,9 +75,17 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
     }
 
     @ServiceProducer(cache = true)
-    public MappingInjector createMappingInjector() {
+    public MappingInjector createMappingInjector(final ICS ics) {
         MappingService mappingService = getObject("mappingService", MappingService.class);
-        return new MappingInjector(mappingService);
+        return new MappingInjector(ics, mappingService);
+    }
+
+    @ServiceProducer(cache = true)
+    public CurrentAssetInjector createCurrentAssetInjector(final ICS ics) {
+        AssetAccessTemplate aat = getObject("assetAccessTemplate", AssetAccessTemplate.class);
+        TemplateAssetAccess taa = getObject("templateAssetAccess", TemplateAssetAccess.class);
+        ScatteredAssetAccessTemplate saa = getObject("scatteredAssetAccessTemplate", ScatteredAssetAccessTemplate.class);
+        return new CurrentAssetInjector(ics, taa, saa, aat);
     }
 
     @ServiceProducer(cache = true)
@@ -83,8 +93,9 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
         BindInjector bind = getObject("bindInjector", BindInjector.class);
         MappingInjector map = getObject("mappingInjector", MappingInjector.class);
         InjectForRequestInjector ifr = getObject("injectForRequestInjector", InjectForRequestInjector.class);
+        CurrentAssetInjector currentAsset = getObject("currentAssetInjector", CurrentAssetInjector.class);
         Stopwatch stopwatch = getObject("stopwatch", Stopwatch.class);
-        return new AnnotationInjector(ics, bind, map, ifr, stopwatch);
+        return new AnnotationInjector(stopwatch, bind, map, ifr, currentAsset);
     }
     
     @ServiceProducer(cache = true)
