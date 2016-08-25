@@ -32,6 +32,8 @@ HOW-TO
 	
 		{{Use the @Bind Annotation (tools.gsf.config.inject.Bind)}}
 		
+		{{Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)}}
+
 		{{Use the @Mapping Annotation (tools.gsf.mapping.Mapping)}}
 		
 		{{Use Your Own Asset Type as a GST Property Asset}}
@@ -413,6 +415,99 @@ protected String myRenderMode;
 		
 		<<Factories are meant to be in charge of instantiating all objects (e.g. beans / services) meant for injection.>>
 	
+	[]
+
+Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)
+
+	* This brand new annotation determines the current asset for the current ICS object (e.g. via c + cid), loads the asset along with the value of the attributes specified by the annotation and injects the appropriate object into the annotated field. 
+	
+	* It provides the following settings:
+	
+		* <<name>> (OPTIONAL): the "name" of the attributes whose values we want to pre-load for the current asset. If not specified, "value" will default to "name" (meaning the std field on every asset type / subtype named "name")
+
+		[]
+		
+	* Lookup logic and limitations:
+	
+		* Current asset is determined as per the following call: AssetIdUtils.currentId(ics).
+		
+		* Supports TemplateAsset, ScatteredAsset and AssetData fields.
+		
+		[]
+		
+	* Examples:
+		
+			* TemplateAsset:
+			
++--
+
+class MyController extends InjectingController {
+	
+	(...)
+ 
+	@CurrentAsset(attributes={"title", "body", "headline"}) TemplateAsset currentTemplateAsset;
+ 
+	protected void handleRequest() {
+		String headline = currentAsset.asString("headline");
+		
+		(...)
+	}
+ 	
+	(...)
+ 
+}
+
++--
+
+			* ScatteredAsset:
+			
++--
+
+class AnotherController extends InjectingController {
+
+	(...)
+
+	@CurrentAsset(attributes={"title", "body", "headline"}) ScatteredAsset currentScatteredAsset;
+
+	protected void handleRequest() {
+		models.add("asset", currentScatteredAsset);
+		
+		(...)
+	}
+	
+	(...)
+
+}
+
++--
+
+			* AssetData:
+			
++--
+
+class ThirdController extends InjectingController {
+
+	(...)
+
+	@CurrentAsset(attributes={"title", "body", "headline"}) AssetData currentAssetData;
+	
+	protected void handleRequest() {
+		AttributeData ad = currentAssetData.getAttribute("title");
+		
+		(...)
+
+	}
+	
+	(...)
+
+}
+
++--
+
+			[]
+			
+		[]
+			
 	[]
 	
 Use the @Mapping Annotation (tools.gsf.mapping.Mapping)
