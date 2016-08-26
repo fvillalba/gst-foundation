@@ -279,10 +279,18 @@ Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)
 				[]
 			
 			[]
+
+		* Whenever you specify a ServiceProducer.name for a given method in your factory class, make sure it is unique -- including all inherited methods.
+		
+		* Although specifying ServiceProducer.name is optional, you are advised to specify it for every Service Producer or, at the very least, for all Service Producers whose return type is the same; this will avoid ambiguity and, potentially, unexpected results from your factory's "getObject" method.
+		
+			* This is especially relevant when your own factory inherits other Service Producers with the same return type from an existing factory it extends.
+			
+			* Unless you really know what you are doing, avoid overriding inherited Service Producers.
+			
+			[] 
 			
 		[]
-		
-	* Make sure your own Service Producers' annotations (particularly, the "name") don't collide with the OOTB Factories' (or amongst them).
 
 	* Example:
 	
@@ -339,8 +347,10 @@ Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)
 			
 			[]
 			
+		* Although InjectForRequest.value is optional, you are advised to specify it for every InjectForRequest annotations or, at the very least, for all InjectForRequest annotations injecting an object whose type matches more than one Service Producer in any of the factories being used (including any Service Producers those factory may inherit). This will avoid ambiguity and, potentially, unexpected objects getting injected.
+
 		[]
-		
+	
 	* Example:
 	
 +--
@@ -434,6 +444,8 @@ Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)
 		* Supports TemplateAsset, ScatteredAsset and AssetData fields.
 		
 		[]
+		
+	* IMPORTANT: be aware of the language-specific convention for specifying String arrays (Groovy = [], Java = {})
 		
 	* Examples (Groovy):
 		
