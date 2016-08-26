@@ -435,7 +435,7 @@ Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)
 		
 		[]
 		
-	* Examples:
+	* Examples (Groovy):
 		
 			* TemplateAsset:
 			
@@ -445,7 +445,7 @@ class MyController extends InjectingController {
 	
 	(...)
  
-	@CurrentAsset(attributes={"title", "body", "headline"}) TemplateAsset currentTemplateAsset;
+	@CurrentAsset(attributes=["title", "body", "headline"]) TemplateAsset currentTemplateAsset;
  
 	protected void handleRequest() {
 		String headline = currentAsset.asString("headline");
@@ -467,7 +467,7 @@ class AnotherController extends InjectingController {
 
 	(...)
 
-	@CurrentAsset(attributes={"title", "body", "headline"}) ScatteredAsset currentScatteredAsset;
+	@CurrentAsset(attributes=["title", "body", "headline"]) ScatteredAsset currentScatteredAsset;
 
 	protected void handleRequest() {
 		models.add("asset", currentScatteredAsset);
@@ -489,7 +489,7 @@ class ThirdController extends InjectingController {
 
 	(...)
 
-	@CurrentAsset(attributes={"title", "body", "headline"}) AssetData currentAssetData;
+	@CurrentAsset(attributes=["title", "body", "headline"]) AssetData currentAssetData;
 	
 	protected void handleRequest() {
 		AttributeData ad = currentAssetData.getAttribute("title");

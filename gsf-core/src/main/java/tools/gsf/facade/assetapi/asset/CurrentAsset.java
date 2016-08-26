@@ -38,6 +38,8 @@ import java.lang.annotation.Target;
  *         
  *         "@CurrentAsset(attributes={"title", "body", "headline"}) AssetData currentAssetData;"
  *
+ * VERY IMPORTANT: in Groovy, arrays are enclosed inside [], not {}. Using {} will throw a compilation error.
+ *
  * @author Tony Field
  * @since 2016-08-24
  */
