@@ -81,9 +81,9 @@ September, 2016.
 
 ##An Important Note on Backwards-Compatibility
 
-All of the GSF's pre-existing classes have been <<deprecated>> in this release.
+All of the GSF's pre-existing classes have been **deprecated** in this release.
 
-The new namespace is: <<tools.gsf>>.
+The new namespace is: **tools.gsf**.
 
 Starting this initial release of GSF-12, new "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself) 
 
@@ -93,11 +93,11 @@ Deprecated classes will not be enhanced, ever. Only the CORE classes will.
 
 As CORE features / classes evolve they will gradually diverge from their LEGACY counterpart, whenever applicable.  
 
-<<You are strongly advised to start using the new namespace (e.g. packages / classnames) right away>>. 
+**You are strongly advised to start using the new namespace (e.g. packages / classnames) right away.** 
 
 ##Documentation
 
-* {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
+* GSF-12 Installation Guide / ReadMe - Guide for manually installing and configuring GSF-12
 
 * JavaDocs are included in this kit. Alternatively, you can get them from the GSF's website.
 
@@ -105,18 +105,19 @@ As CORE features / classes evolve they will gradually diverge from their LEGACY 
 
 In this release, classes are shipped in 2 JAR files:
     
-	* gsf-core-<version>.jar: here you'll find the classes that make up GSF's new CORE.    
+*	*gsf-core-<version>.jar*: here you'll find the classes that make up GSF's new CORE.    
     
-	* gsf-legacy-<version>.jar: here you'll find deprecated classes scheduled for physical removal in a future release.
+*	*gsf-legacy-<version>.jar*: here you'll find deprecated classes scheduled for physical removal in a future release.
 	
 This kit builds both JAR files, including the due JavaDocs. 
 
 ##Requirements
 
-Java 1.8 (or newer)
+Java 1.8
 Servlet 3.0
+JSP 2.2
 WCS 12c
-SLF4J 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
+SLF4J 1.7.21 -- NOTE: WCS 12c already ships with SLF4J
 
 ##Support
 
