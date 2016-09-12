@@ -40,13 +40,13 @@ This is the first GSF release which embraces WCS 12c's features and rendering pr
 
 The main goals of this specific release were:
 
-	1.	Providing the means for clients out there already using GSF to reuse as much of their existing code as possible when upgrading from WCS 11.x to WCS 12c,
+1.	Providing the means for clients out there already using GSF to reuse as much of their existing code as possible when upgrading from WCS 11.x to WCS 12c,
 
-	2.	Leveraging the use of WCS 12c's new features / API,
+2.	Leveraging the use of WCS 12c's new features / API,
 
-	3.	Simplifying GSF's installation / deployment to the utmost and making it as agile and CI-friendly as possible, and
+3.	Simplifying GSF's installation / deployment to the utmost and making it as agile and CI-friendly as possible, and
 
-	4.	Encouraging GSF users and potential adopters to benefit from GSF's optimized code whilst leveraging better encapsulation, cleaner design and more intuitive, simpler usage and deployment.
+4.	Encouraging GSF users and potential adopters to benefit from GSF's optimized code whilst leveraging better encapsulation, cleaner design and more intuitive, simpler usage and deployment.
 
 Many of the GSF's existing features have become partially or totally unnecessary due to WCS 12c (and 11.x) offering a native equivalent.
 
