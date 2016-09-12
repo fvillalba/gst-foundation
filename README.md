@@ -18,23 +18,23 @@
 
 The GSF aims at:
 
-	1.	Standardizing processes for business users.
-
-	2.	Simplifying coding greatly, to the point where much can be provided in common libraries.
-
-	3.	Clearly defining extension points.
+1.	Standardizing processes for business users.
 	
-	4. Not imposing any design / data model requirements whilst encouraging the use of design patterns, optimal coding and best practices.   
+2.	Simplifying coding greatly, to the point where much can be provided in common libraries.
+
+3.	Clearly defining extension points.
+	
+4.	Not imposing any design / data model requirements whilst encouraging the use of design patterns, optimal coding and best practices.   
 
 At a high level, the GSF offers a non-rendering foundation which aims at providing the following primary benefits:
 
-	*	Is suitable for use "out of the box" for a large number of sites
+*	Is suitable for use "out of the box" for a large number of sites
 
-	*	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
+*	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
 	
-	*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
+*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
 
-	*	Can be cleanly extended to address custom client requirements
+*	Can be cleanly extended to address custom client requirements
 
 This is the first GSF release which embraces WCS 12c's features and rendering practices.
 
