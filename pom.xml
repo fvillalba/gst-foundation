@@ -195,6 +195,13 @@
               </script>
   ]]>
 					</header>
+					<tags>
+						<tag>
+							<name>implSpec</name>
+							<placement>a</placement>
+							<head>Implementation Requirements:</head>
+						</tag>
+					</tags>
 				</configuration>
 				<executions>
 					<execution>

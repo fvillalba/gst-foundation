@@ -26,6 +26,9 @@ import tools.gsf.facade.sql.SqlHelper;
 
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Simple navigation service implementation that loads objects from the Site Plan. Supports populating node data via
  * a dedicated method that can be overridden to load any data that is required, as long as it can be presented
@@ -37,6 +40,8 @@ import java.util.*;
  * @since 2016-07-06
  */
 public abstract class SitePlanNavService implements NavService<AssetNode, AssetId, AssetId> {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SitePlanNavService.class);
 
     private final ICS ics;
     private final Map<AssetId,SimpleAssetNode[]> nodesById = new HashMap<>();
@@ -126,21 +131,26 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         if (spNodes.length > 1) throw new IllegalStateException("Cannot have more than one site plan node with the same id in the tree");
         AssetNode requestedRoot = spNodes[0]; // never null
 
-        // populate asset data into the structure requested
-        _populateNodes(requestedRoot);
+        // populate asset data into the requested structure
+        _populateNode(requestedRoot);
 
         // return the loaded children of the structure root
         return requestedRoot.getChildren();
     }
-
-    private void _populateNodes(AssetNode... emptyNodes) {
-
-        // gather the empty nodes we care about
-        Collection<AssetNode> nodesToPopulate = new HashSet<>();
-        for (AssetNode unpopulatedNode : emptyNodes) {
-            nodesToPopulate.addAll(_getDescendents(unpopulatedNode));
-            nodesToPopulate.addAll(_getAncestors(unpopulatedNode));
+    
+    private void _populateNodesRec(Collection<AssetNode> nodesToPopulate, AssetNode emptyNode) {
+    	// put the current emptyNode in the list of nodes to populate
+        nodesToPopulate.add(emptyNode);
+        for (AssetNode child : emptyNode.getChildren()) {
+        	// put all descendants of the current emptyNode in
+        	// the list of nodes to populate
+        	_populateNodesRec(nodesToPopulate, child);
         }
+    }
+
+    private void _populateNode(AssetNode entryNode) {
+        Collection<AssetNode> nodesToPopulate = new HashSet<AssetNode>();
+        _populateNodesRec(nodesToPopulate, entryNode);
 
         // fill 'em up
         for (AssetNode node : nodesToPopulate) {
@@ -153,23 +163,6 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
             SimpleAssetNode san = _asSimpleAssetNode(node);
             san.setAsset(data);
         }
-    }
-
-    private Collection<AssetNode> _getDescendents(AssetNode n) {
-        Set<AssetNode> descendents = new HashSet<>();
-        for (AssetNode kid : n.getChildren()) {
-            descendents.addAll(_getDescendents(kid));
-        }
-        return descendents;
-    }
-
-    private Collection<AssetNode> _getAncestors(AssetNode node) {
-        Set<AssetNode> ancestors = new HashSet<>();
-        do {
-            ancestors.add(node);
-            node = node.getParent();
-        } while (node != null);
-        return ancestors;
     }
 
     /**
@@ -208,7 +201,11 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
 
         List<AssetNode> breadcrumb = chooseBreadcrumb(breadcrumbs);
 
-        _populateNodes(breadcrumb.toArray(new AssetNode[breadcrumb.size()]));
+        // populate only those nodes in the breadcrumb
+        // and their corresponding children
+        for (AssetNode breadcrumbNode : breadcrumb) {
+        	_populateNode(breadcrumbNode);
+        }
 
         return breadcrumb;
     }
@@ -225,7 +222,11 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
     protected List<AssetNode> getBreadcrumbForNode(AssetNode node) {
         List<AssetNode> ancestors = new ArrayList<>();
         do {
-            ancestors.add(node);
+        	// Make sure we exclude any parents which
+        	// are not Page assets
+        	if (node.getId().getType().equals("Page")) {
+        		ancestors.add(node);
+        	}
             node = node.getParent();
         } while (node != null);
         Collections.reverse(ancestors);
